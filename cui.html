@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>崔子健自我介绍</title>
+</head>
+<body>
+    <header>
+        <h1>自我介绍</h1>
+    </header>
+    <article>
+        <p>hello,大家好,我叫坤鲲</p>
+        <h3>兴趣爱好</h3>
+        <p>喜欢运动,打篮球、踢足球等，经常看这些比赛</p>
+        <p>也喜欢美食，喜欢吃，喜欢睡</p>
+        <p>平时也喜欢看电影，追剧</p>
+        <h3>家乡</h3>
+        <div>
+			<a href="https://baike.baidu.com/item/%E6%99%8B%E5%9F%8E/249576?fr=aladdin">山西晋城</a>
+		</div>
+        <img src="./img/shanxi.jpg" width="800px" height="300px">
+		<p>景点有皇城相府、珏山、王莽岭、九仙女湖、蟒河生态旅游区、凤凰欢乐谷等······</p>
+        <p>当地美食也还好</p>
+    </article>
+    <footer width="100%">
+        <canvas id='canvas' width="1880px" height="200px"></canvas>
+    </footer>
+    <script type="text/javascript">
+		var canvas = document.getElementById('canvas');
+		var c = canvas.getContext('2d');
+		c.fillStyle = 'gray';
+		c.fillRect(0,0,1880,200)
+		var target=[{}];
+		for (var i = 0; i <= 60; i++) {
+			var obj = {}
+			obj.x = randomNum(30,1880);
+			obj.y= randomNum(30,170);
+			obj.speedX = randomNum(-2,2);
+			obj.speedY=randomNum(-2,2);
+			obj.deg = randomNum(0,180)
+			target[i]=obj;
+			drawStar(c,target[i].x,target[i].y,10,5,target[i].deg);
+		};
+ 
+		setInterval(function() {
+			//更新画布
+			c.clearRect(0,0,1880,200);
+			c.fillStyle = 'gray';
+			c.fillRect(0,0,1880,200)
+			//绘制星星
+			for (var i = 0; i <= 60; i++) {
+				
+				target[i].x = target[i].x+target[i].speedX;
+				target[i].y = target[i].y+target[i].speedY;
+ 
+				//保证星星速度不为零
+				if(target[i].speedX==0){
+					target[i].speedX=1
+				}
+				if(target[i].speedY==0){
+					target[i].speedY=1
+				}
+				//星星运动到边界后往回运动
+				if(target[i].x>=2070){
+					target[i].speedX = -randomNum(1,2);
+				}
+				if(target[i].x<=30){
+					target[i].speedX = randomNum(1,2);
+				}
+				if(target[i].y>=170){
+					target[i].speedY = -randomNum(1,2);
+				}
+				if(target[i].y<=30){
+					target[i].speedY = randomNum(1,2);
+				}
+				drawStar(c,target[i].x,target[i].y,20,10,target[i].deg);
+			}
+ 
+		},1.7);
+		//取随机数
+		function randomNum(min,max){
+			return Math.floor(Math.random()*(max-min+1)+min);
+		}
+		//画星星
+		//x, y为圆心坐标，R、r分别为大圆、小圆半径,rot旋转角度 
+		function drawStar(cxt, x, y, r, R, rot){
+                cxt.beginPath();
+                for(var i = 0; i < 5; i ++){
+                    cxt.lineTo( Math.cos( (18 + i*72 - rot)/180 * Math.PI) * R + x,
+                                -Math.sin( (18 + i*72 - rot)/180 * Math.PI) * R + y)
+                    cxt.lineTo( Math.cos( (54 + i*72 - rot)/180 * Math.PI) * r + x,
+                                -Math.sin( (54 + i*72 - rot)/180 * Math.PI) * r + y)
+                }
+                cxt.closePath();
+                cxt.lineWidth = 3;
+                cxt.fillStyle = "#fb3";
+                cxt.strokeStyle = "#fb5";
+                cxt.lineJoin = "round";
+                cxt.fill();
+                cxt.stroke();
+        }
+ 
+	</script>
+</body>
+</html>
